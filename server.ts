@@ -1,69 +1,83 @@
-import { serve } from "@hono/node-server"
-import { Hono } from "hono"
-import { cors } from "hono/cors"
-import { serveStatic } from "@hono/node-server/serve-static"
-import { z } from "zod"
-import fs from "node:fs/promises"
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { serveStatic } from "@hono/node-server/serve-static";
+import { Project, ProjectSchema } from "./types";
+import fs from "node:fs/promises";
+import { readFile } from "node:fs";
+import path from "node:path";
 
-const app = new Hono()
+const app = new Hono();
 
-app.use("/*", cors())
+app.use("/*", cors());
 
-app.use("/static/*", serveStatic({ root: "./" }))
+app.use("/static/*", serveStatic({ root: "./" }));
 
-// Define the Project schema using Zod
-const ProjectSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  tags: z.array(z.string()),
-  description: z.string(),
-})
+const projects: Project[] = [
+  {
+    id: "1",
+    title: "Project 1",
+    tags: ["tag1", "tag2"],
+    description: "Description 1",
+    createdAt: new Date(),
+  },
+  {
+    id: "2",
+    title: "Project 2",
+    tags: ["tag3", "tag4"],
+    description: "Description 2",
+    createdAt: new Date(),
+  },
+];
 
-type Project = z.infer<typeof ProjectSchema>
-
+const dataFilePath = path.resolve("data.json");
+// return all the projects
 app.get(`/json`, async (c) => {
-  const data = await fs.readFile("/data.json", "utf8")
-  const dataAsJson = JSON.parse(data)
-  return c.json(dataAsJson)
-})
+  try {
+    const data = await fs.readFile(dataFilePath, "utf8");
+    const dataAsJson = JSON.parse(data);
+    return c.json(dataAsJson.projects);
+  } catch (error) {
+    return c.json({ error: "Failed to read data" }, { status: 500 });
+  }
+});
 
 // write projects to data.json
-app.post(`/json`, async (c) => {
-  const data = await c.req.json()
-  await fs.writeFile("/data.json", JSON.stringify(data))
-  return c.json(data)
-})
+app.post(`/api/add`, async (c) => {
+  try {
+    const newProject = await c.req.json();
+    const project = ProjectSchema.parse(newProject);
+
+    const jsonData = await fs.readFile(dataFilePath, "utf8");
+    const data = JSON.parse(jsonData);
+
+    data.projects.push(project);
+
+    // Write to the file data.json
+    await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2));
+
+    return c.json(data.projects, { status: 201 });
+  } catch (error) {
+    return c.json({ error: "Failed to add project" }, { status: 500 });
+  }
+});
 
 // return all the projects
 app.get(`/projects`, async (c) => {
-  const data = await fs.readFile("/data.json", "utf8")
-  const dataAsJson = JSON.parse(data)
-  return c.json(dataAsJson.projects)
-})
+  try {
+    const data = await fs.readFile(dataFilePath, "utf8");
+    const dataAsJson = JSON.parse(data);
+    return c.json(dataAsJson.projects);
+  } catch (error) {
+    return c.json({ error: "Failed to read projects" }, { status: 500 });
+  }
+});
 
-// // Setter typen til habits til å være en array av Habit
-// app.post("/add", async (c) => {
-//   const newProject = await c.req.json()
-//   // validate the received data is a valid Project
-//   const projects = ProjectSchema.parse(newProject)
-//   // check if project is a valid Project, and return an error message if not
-//   if (!projects) return c.json({ error: "Invalid project" }, { status: 400 })
-//   // Add the new project to the list of projects
-//   projects.push(projects)
-//   // return a list of all projects. Use a generic type to tell that we are returning an array of Project
-//   return c.json<Project[]>(projects, { status: 201 })
-// })
+const port = 3999;
 
-// app.get("/", (c) => {
-//   // Returnerer en liste med alle habits. Bruker generisk type for å fortelle at vi returnerer en array av Habit
-//   return c.json<Habit[]>(habits)
-// })
-
-const port = 3999
-
-console.log(`Server is running on port ${port}`)
+console.log(`Server is running on port ${port}`);
 
 serve({
   fetch: app.fetch,
   port,
-})
+});
