@@ -4,12 +4,25 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
+    "build:client": "vite build",
+    "build:server": "vite build --config vite.server.config.js",
+    "clean": "rm -rf dist statics build",
+    "build:all": "pnpm run build:client && pnpm run build:server",
+    "build": "pnpm run clean && pnpm run build:server",
+    "dev:frontend": "vite",
+    "dev:server": "tsx --watch server.ts",
+    "dev": "concurrently -n frontend,server -c green,blue \"pnpm run dev:frontend\" \"pnpm run dev:server\""
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.12.1",
+    "hono": "^4.5.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5.5.3",
-    "vite": "^5.4.1"
+    "@types/node": "^22.5.0",
+    "concurrently": "8.2.2",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2"
   }
 }
