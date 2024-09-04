@@ -39,25 +39,20 @@
         </article>
       </section>
       <section id="mine-prosjekter">
-        <h2>Mine prosjekter</h2>
-        <section id="enkel-prosjekt">
-          <article>
-            <h3>Prosjekt 1.</h3>
-            <p>[Array med tags, "HTML5", "CSS3" OSV.]</p>
-            <p>
-              Dette er mitt første prosjekt. Jeg har brukt HTML og CSS for å
-              lage en enkel nettside.
-            </p>
-          </article>
-          <article>
-            <h3>Prosjekt 2.</h3>
-            <p>[Array med tags, "HTML5", "CSS3" OSV.]</p>
-            <p>
-              Dette er mitt første prosjekt. Jeg har brukt HTML og CSS for å
-              lage en enkel nettside.
-            </p>
-          </article>
+        <section id="showPostForm">
+          <h2>Mine prosjekter</h2>
+          <button id="postProjectButton">Create a new Project</button>
+          <form id="postProjectForm" style="display: none">
+            <label for="projectTitle">Project Title</label>
+            <input type="text" id="projectTitle" required />
+            <label for="projectTags">Project Tags (comma separated)</label>
+            <input type="text" id="projectTags" required />
+            <label for="projectDescription">Project Description</label>
+            <textarea id="projectDescription" required></textarea>
+            <button type="submit">Post Project</button>
+          </form>
         </section>
+        <section id="enkel-prosjekt"></section>
       </section>
     </main>
     <footer>&copy; 2024 Shvan Nasser. All rights reserved.</footer>

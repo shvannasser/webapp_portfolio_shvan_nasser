@@ -1,3 +1,16 @@
-
-
-
+{
+  "projects": [
+    {
+      "id": 1,
+      "title": "Prosjekt 1",
+      "tags": ["HTML5", "CSS3"],
+      "description": "Dette er mitt første prosjekt. Jeg har brukt HTML og CSS for å lage en enkel nettside."
+    },
+    {
+      "id": 2,
+      "title": "Prosjekt 2",
+      "tags": ["HTML5", "CSS3"],
+      "description": "Dette er mitt andre prosjekt. Jeg har brukt HTML og CSS for å lage en enkel nettside."
+    }
+  ]
+}
