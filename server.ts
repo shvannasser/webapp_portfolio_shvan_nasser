@@ -2,10 +2,8 @@ import { serve } from "@hono/node-server";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { serveStatic } from "@hono/node-server/serve-static";
-import { Project, ProjectSchema } from "./types";
-import fs from "node:fs/promises";
-import { readFile } from "node:fs";
-import path from "node:path";
+import { getProjectData, updateProjectData } from "./lib";
+import { Projects } from "./types";
 
 const app = new Hono();
 
@@ -13,64 +11,40 @@ app.use("/*", cors());
 
 app.use("/static/*", serveStatic({ root: "./" }));
 
-const projects: Project[] = [
-  {
-    id: "1",
-    title: "Project 1",
-    tags: ["tag1", "tag2"],
-    description: "Description 1",
-    createdAt: new Date(),
-  },
-  {
-    id: "2",
-    title: "Project 2",
-    tags: ["tag3", "tag4"],
-    description: "Description 2",
-    createdAt: new Date(),
-  },
-];
-
-const dataFilePath = path.resolve("data.json");
 // return all the projects
-app.get(`/json`, async (c) => {
-  try {
-    const data = await fs.readFile(dataFilePath, "utf8");
-    const dataAsJson = JSON.parse(data);
-    return c.json(dataAsJson.projects);
-  } catch (error) {
-    return c.json({ error: "Failed to read data" }, { status: 500 });
-  }
+app.get(`/`, async (c) => {
+  const data = await getProjectData();
+  return c.json({ data });
 });
 
-// write projects to data.json
-app.post(`/api/add`, async (c) => {
-  try {
-    const newProject = await c.req.json();
-    const project = ProjectSchema.parse(newProject);
+app.get("/:project", async (c) => {
+  const reqProject = c.req.param("title");
 
-    const jsonData = await fs.readFile(dataFilePath, "utf8");
-    const data = JSON.parse(jsonData);
+  const data = await getProjectData();
+  const existing = data.find(
+    (entry) => entry.title.toLowerCase() === reqProject.toLowerCase()
+  );
 
-    data.projects.push(project);
-
-    // Write to the file data.json
-    await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2));
-
-    return c.json(data.projects, { status: 201 });
-  } catch (error) {
-    return c.json({ error: "Failed to add project" }, { status: 500 });
+  if (!existing) {
+    return c.json({ error: "Project not found" }, 404);
   }
+
+  return c.json({ data: existing, param: reqProject });
 });
 
-// return all the projects
-app.get(`/projects`, async (c) => {
-  try {
-    const data = await fs.readFile(dataFilePath, "utf8");
-    const dataAsJson = JSON.parse(data);
-    return c.json(dataAsJson.projects);
-  } catch (error) {
-    return c.json({ error: "Failed to read projects" }, { status: 500 });
+app.post("/", async (c) => {
+  const body = await c.req.json<Projects>();
+  if (!body.title) {
+    return c.json({ error: "Title is required" }, 400);
   }
+  const data = await getProjectData();
+  const hasTitle = data.some(
+    (entry) => entry.title.toLowerCase() === body.title.toLowerCase()
+  );
+  if (hasTitle) return c.json({ error: "Project already exists" }, 409);
+  data.push(body);
+  await updateProjectData(data);
+  return c.json({ body }, 201);
 });
 
 const port = 3999;
