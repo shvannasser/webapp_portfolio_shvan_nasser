@@ -42,29 +42,9 @@
         <section id="showPostForm">
           <h2>Mine prosjekter</h2>
           <button id="postProjectButton">Create a new Project</button>
-          <form id="postProjectForm" style="display: none">
-            <input type="text" id="id" name="id" placeholder="id" required />
-            <input
-              type="text"
-              id="title"
-              name="title"
-              placeholder="title"
-              required
-            />
-            <input
-              type="text"
-              id="description"
-              name="description"
-              placeholder="description"
-              required
-            />
-            <button type="submit">Create</button>
-          </form>
-          <form id="postProjectForm" style="display: none">
+          <form id="postProjectForm">
             <label for="projectTitle">Project Title</label>
             <input type="text" id="projectTitle" required />
-            <label for="projectTags">Project Tags (comma separated)</label>
-            <input type="text" id="projectTags" required />
             <label for="projectDescription">Project Description</label>
             <textarea id="projectDescription" required></textarea>
             <button type="submit">Post Project</button>
