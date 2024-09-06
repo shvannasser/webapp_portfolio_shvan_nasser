@@ -47,6 +47,23 @@ app.post("/add", async (c) => {
   return c.json({ body }, 201);
 });
 
+// app.post("/adds", async (c) => {
+//   const data = await c.req.json<Project[]>()
+//   const project = ProjectSchema.parse(data)
+
+//   if (!project) return c.json({ error: "Invalid data" }, 400)
+//   const projects = await getProjectData()
+//   projects.push(project)
+//   writeFile("projects.json", JSON.stringify(projects), (err) => {
+//     if (err) {
+//       console.error(err)
+//       return c.json({ error: "Failed to add project" }, 500)
+//     }
+//   })
+
+//   return c.json<Project[]>(projects, 201)
+// })
+
 const port = 3999;
 
 console.log(`Server is running on port ${port}`);
