@@ -1,14 +1,16 @@
-{
-  "projects": [
-    {
-      "id": 1,
-      "title": "Prosjekt 1",
-      "description": "Dette er mitt første prosjekt. Jeg har brukt HTML og CSS for å lage en enkel nettside."
-    },
-    {
-      "id": 2,
-      "title": "Prosjekt 2",
-      "description": "Dette er mitt andre prosjekt. Jeg har brukt HTML og CSS for å lage en enkel nettside."
-    }
-  ]
-}
+[
+  {
+    "id": 1,
+    "title": "Prosjekt 1",
+    "description": "Dette er mitt første prosjekt. Jeg har brukt HTML og CSS for å lage en enkel nettside."
+  },
+  {
+    "id": 2,
+    "title": "Prosjekt 2",
+    "description": "Dette er mitt andre prosjekt. Jeg har brukt HTML og CSS for å lage en enkel nettside."
+  },
+  { "title": "TEST", "description": "TEST" },
+  { "title": "TEST 2", "description": "TEST 2" },
+  { "title": "test 3", "description": " test 3" },
+  { "title": "test 4", "description": "test 4" }
+]

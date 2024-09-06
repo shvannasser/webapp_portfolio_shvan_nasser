@@ -1,20 +1,21 @@
+import { Project } from "./types";
+import { v4 as uuidv4 } from "uuid";
 import "./style.css";
 
-const displayProjects = (
-  projects: { id: string; title: string; description: string }[]
-) => {
+const displayProjects = (projects: Project[]) => {
   const projectSection = document.getElementById("enkel-prosjekt");
 
   if (projectSection) {
-    // projectSection.innerHTML = ""; // Clear existing projects
+    projectSection.innerHTML = ""; // Clear existing projects
     projects.forEach((project) => {
+      console.log(project);
       const article = document.createElement("article");
       const h3 = document.createElement("h3");
       h3.textContent = project.title;
       article.appendChild(h3);
 
       const p = document.createElement("p");
-      p.textContent = project.description;
+      p.textContent = project.description ?? "No description available";
       article.appendChild(p);
 
       projectSection.appendChild(article);
@@ -43,20 +44,23 @@ const loadProjectData = async () => {
   }
 };
 
-const addProjectData = async (project: unknown) => {
+const addProjectData = async (project: Omit<Project, "id">) => {
   try {
+    const newProject: Project = { id: uuidv4(), ...project };
+
     const response = await fetch("http://localhost:3999/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(project),
+      body: JSON.stringify(newProject),
     });
 
     console.log(response.status);
     console.log(response.ok);
 
     const data = await response.json();
+    loadProjectData();
 
     console.log(data);
   } catch (error) {

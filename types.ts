@@ -1,5 +1,5 @@
-export type Projects = {
-  id?: string;
+export type Project = {
+  id: string;
   title: string;
   description?: string;
 };
