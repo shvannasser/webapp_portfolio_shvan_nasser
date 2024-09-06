@@ -24,6 +24,7 @@ const displayProjects = (projects: Project[]) => {
 };
 
 const loadProjectData = async () => {
+  // Fetches the project data from the server
   try {
     const response = await fetch("http://localhost:3999", {
       method: "GET",

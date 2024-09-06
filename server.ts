@@ -17,7 +17,8 @@ app.get(`/`, async (c) => {
   return c.json({ data });
 });
 
-app.get("/:project", async (c) => {
+// henter ut en spesifik prosjekt basert på tittel. Hvis prosjektet ikke finnes, returneres en feilmelding
+app.get("/:title", async (c) => {
   const reqProject = c.req.param("title") ?? "";
 
   const data = await getProjectData();
@@ -32,6 +33,7 @@ app.get("/:project", async (c) => {
   return c.json({ data: existing, param: reqProject });
 });
 
+// post endepunktet for å legge til et nytt prosjekt
 app.post("/add", async (c) => {
   const body = await c.req.json<Project>();
   if (!body.title) {
@@ -46,23 +48,6 @@ app.post("/add", async (c) => {
   await updateProjectData(data);
   return c.json({ body }, 201);
 });
-
-// app.post("/adds", async (c) => {
-//   const data = await c.req.json<Project[]>()
-//   const project = ProjectSchema.parse(data)
-
-//   if (!project) return c.json({ error: "Invalid data" }, 400)
-//   const projects = await getProjectData()
-//   projects.push(project)
-//   writeFile("projects.json", JSON.stringify(projects), (err) => {
-//     if (err) {
-//       console.error(err)
-//       return c.json({ error: "Failed to add project" }, 500)
-//     }
-//   })
-
-//   return c.json<Project[]>(projects, 201)
-// })
 
 const port = 3999;
 
