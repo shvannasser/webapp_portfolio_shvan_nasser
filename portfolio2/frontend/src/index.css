@@ -83,9 +83,8 @@ main {
   margin-bottom: 5rem;
 
   & .projects-item {
-    max-width: 400px;
-    max-height: 300px;
-    min-height: 300px;
+    box-sizing: border-box;
+    max-height: 400px;
     overflow: auto;
     background-color: var(--surface-color);
     padding: 1rem;
