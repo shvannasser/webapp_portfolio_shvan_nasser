@@ -40,6 +40,8 @@ getProjectData()
   });
 
 app.post("/api/projects", async (c) => {
+  const projects = await getProjectData();
+
   const project = await c.req.json();
   const projectWithId = { id: crypto.randomUUID(), ...project };
   projects.push(projectWithId);
