@@ -78,13 +78,14 @@ main {
 
 #projects {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   margin-bottom: 5rem;
 
   & .projects-item {
     max-width: 400px;
     max-height: 300px;
+    min-height: 300px;
     overflow: auto;
     background-color: var(--surface-color);
     padding: 1rem;
@@ -184,35 +185,6 @@ article img {
   height: 50%;
   border-radius: 50%;
 }
-
-/* #mine-prosjekter h2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
-}
-
-#showPostForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-#enkel-prosjekt {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 1rem;
-  padding: 1rem;
-}
-
-#enkel-prosjekt article {
-  text-align: center;
-  border: #898989 1px solid;
-  border-radius: 1rem;
-  padding: 1rem;
-} 
-  */
 
 footer {
   grid-area: footer;
