@@ -1,50 +1,34 @@
 import { useState } from "react";
-import Student from "./Student";
-import type { Student as StudentProp } from "./types";
-import AddStudentForm from "./AddStudentForm";
-
-// // Liste med studenter
-// const students = [
-//   {
-//     id: "1",
-//     name: "Shvan",
-//   },
-//   {
-//     id: "2",
-//     name: "Emilie",
-//   },
-// ];
+import Project from "./Project";
+import type { Project as ProjectProp } from "./types";
+import AddProjectForm from "./AddProjectForm";
 
 type GridProps = {
-  students: StudentProp[];
+  projects: ProjectProp[];
 };
 
-export default function Grid(props: GridProps) {
-  const [students, setStudents] = useState<StudentProp[]>(props.students ?? []);
+export default function GridProjects(props: GridProps) {
+  const [projects, setProjects] = useState<ProjectProp[]>(props.projects ?? []);
 
-  const onAddStudent = (student: { name: string }) => {
-    // Prev er gammel state og vi legger til en ny student i listen med studenter og setter den nye listen som ny state med setStudents.
-    setStudents((prev) => [...prev, { id: crypto.randomUUID(), ...student }]);
+  const onAddProject = (project: { title: string; description: string }) => {
+    setProjects((prev) => [...prev, { id: crypto.randomUUID(), ...project }]);
   };
-
-  // const { students } = props;
 
   return (
     <section>
-      <article className='grid'>
-        {/* // Gå gjennom listen med studenter og lag en Student-komponent for hver
-        student
-
-        // The map() method creates a new array populated with the results of calling a provided function on every element in the calling array.
-        
-        // Student component is called for each student in the students array
-
-        // The key prop is a special attribute that's required when creating lists of elements. The key prop is a unique identifier that helps React identify which items have changed, are added, or are removed. */}
-        {students.map((student) => (
-          <Student key={student.id} name={student.name} id={student.id} />
+      <h2>Mine prosjekter</h2>
+      <article id='projects'>
+        {projects.map((project) => (
+          <div key={project.id} className='projects-item'>
+            <Project
+              id={project.id}
+              title={project.title}
+              description={project.description}
+            />
+          </div>
         ))}
       </article>
-      <AddStudentForm onAddStudent={onAddStudent} />
+      <AddProjectForm onAddProject={onAddProject} />
     </section>
   );
 }

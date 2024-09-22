@@ -1,4 +1,5 @@
-export type Student = {
+export type Project = {
   id: string;
-  name: string;
+  title: string;
+  description: string;
 };
