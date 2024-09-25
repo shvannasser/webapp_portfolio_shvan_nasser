@@ -1,4 +1,3 @@
-import Project from "./components/Project";
 import Grid from "./components/Grid";
 import Header from "./components/Layout/Header";
 import MainIntro from "./components/Layout/MainIntro";

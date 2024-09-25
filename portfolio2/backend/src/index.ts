@@ -33,13 +33,15 @@ let projects: Project[] = [];
 getProjectData()
   .then((loadedProjects) => {
     projects = loadedProjects;
-    console.log("Projects loaded:", projects);
+    // console.log("Projects loaded:", projects);
   })
   .catch((error) => {
     console.error("Error loading projects:", error);
   });
 
 app.post("/api/projects", async (c) => {
+  const projects = await getProjectData();
+
   const project = await c.req.json();
   const projectWithId = { id: crypto.randomUUID(), ...project };
   projects.push(projectWithId);
