@@ -160,6 +160,15 @@ main {
   }
 }
 
+@media (max-width: 1200px) {
+  #projects {
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); /* Two columns on screens wider than 600px */
+  }
+}
+
 #intro-section {
   display: flex;
   flex-direction: row;
@@ -183,6 +192,32 @@ article img {
   width: 50%;
   height: 50%;
   border-radius: 50%;
+}
+
+#projects {
+  margin: 5rem;
+}
+
+#project-image {
+  width: 100%;
+  max-height: 10rem;
+  object-fit: cover;
+  border-radius: 0.2rem;
+}
+
+#pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  grid-column: 1 / -1; /* Lar pagination article ta hele raden. */
+}
+
+#pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 footer {
