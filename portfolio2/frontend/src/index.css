@@ -162,10 +162,7 @@ main {
 
 @media (max-width: 1200px) {
   #projects {
-    grid-template-columns: repeat(
-      2,
-      1fr
-    ); /* Two columns on screens wider than 600px */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
