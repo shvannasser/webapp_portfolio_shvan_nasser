@@ -1,0 +1,230 @@
+:root {
+  --primary-color: #3b82f6; /* Blue 500 */
+  --primary-hover: #2563eb; /* Blue 600 */
+  --secondary-color: #10b981; /* Emerald 500 */
+  --secondary-hover: #059669; /* Emerald 600 */
+
+  --background-color: #f8fafc; /* Slate 50 */
+  --surface-color: #ffffff;
+
+  --text-color: #1e293b; /* Slate 800 */
+  --text-muted: #64748b; /* Slate 500 */
+
+  --border-color: #e2e8f0; /* Slate 200 */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  --accent-color: #8b5cf6; /* Violet 500 */
+  --success-color: #22c55e; /* Green 500 */
+  --warning-color: #eab308; /* Yellow 500 */
+  --error-color: #ef4444; /* Red 500 */
+}
+
+body {
+  font-family: "Inter", "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell",
+    "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+
+  grid-template-rows: 70px auto 70px;
+  grid-template-columns: 1fr;
+  height: 100vh;
+}
+header {
+  grid-area: header;
+  background-color: #0c0c0c;
+  color: white;
+}
+
+header {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+nav ul {
+  display: flex;
+  list-style-type: none;
+}
+
+nav li {
+  margin-right: 1rem;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #898989;
+}
+
+main {
+  grid-area: main;
+  padding: 1rem;
+}
+
+#projects {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 5rem;
+
+  & .projects-item {
+    box-sizing: border-box;
+    max-height: 400px;
+    overflow: auto;
+    background-color: var(--surface-color);
+    padding: 1rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px var(--shadow-color);
+  }
+
+  & button {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.75rem 1rem;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    font-weight: 500;
+    font-size: 1rem;
+
+    &:hover {
+      background-color: var(--secondary-hover);
+    }
+  }
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 2rem auto;
+  background-color: var(--surface-color);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px var(--shadow-color);
+
+  & .projectForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 0px solid var(--border-color);
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+    &:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); /* Blue 500 with opacity */
+    }
+    & input {
+      margin: 1rem;
+      padding: 1rem;
+    }
+  }
+}
+button {
+  background-color: var(--secondary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+  font-weight: 500;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: var(--secondary-hover);
+  }
+}
+
+.close-form-button:hover {
+  background-color: red;
+}
+
+@media (max-width: 1200px) {
+  #projects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+#intro-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  margin-bottom: 8rem;
+}
+
+#intro-article {
+  width: 50%;
+}
+
+#bilde {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+article img {
+  justify-content: center;
+  width: 50%;
+  height: 50%;
+  border-radius: 50%;
+}
+
+#projects {
+  margin: 5rem;
+}
+
+#project-image {
+  width: 100%;
+  max-height: 10rem;
+  object-fit: cover;
+  border-radius: 0.2rem;
+}
+
+#pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  grid-column: 1 / -1; /* Lar pagination article ta hele raden. */
+}
+
+#pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+footer {
+  grid-area: footer;
+  background-color: #0c0c0c;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+}
