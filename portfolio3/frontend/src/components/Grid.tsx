@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Project from "./Project";
-import type { Project as ProjectProp } from "./types";
-import AddProjectForm from "./AddProjectForm";
+import Project from "../features/projects/Project";
+import type { Project as ProjectProp } from "../types/types";
+import AddProjectForm from "../features/projects/AddProjectForm";
 
 type GridProps = {
   projects: ProjectProp[];

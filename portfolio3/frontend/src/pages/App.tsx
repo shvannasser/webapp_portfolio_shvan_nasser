@@ -1,8 +1,5 @@
-import Grid from "./components/Grid";
-import Header from "./components/Layout/Header";
-import MainIntro from "./components/Layout/MainIntro";
-import Footer from "./components/Layout/Footer";
-import { useEffect, useState } from "react";
+import Layout from "../components/Layout";
+import MainPage from "./MainPage";
 
 // const projects = [
 //   {
@@ -31,29 +28,18 @@ import { useEffect, useState } from "react";
 //TODO
 
 function App() {
-  const [projects, setProjects] = useState([]);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch("http://localhost:3999");
-        const data = await response.json();
-        setProjects(data.data);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    };
-    fetchProjects();
-  });
-
   return (
     <body>
-      <Header />
+      <Layout>
+        <MainPage />
+      </Layout>
+
+      {/* <Header />
       <main>
         <MainIntro />
         <Grid projects={projects} />
       </main>
-      <Footer />
+      <Footer /> */}
     </body>
   );
 }

@@ -1,4 +1,4 @@
-import { Project as ProjectProps } from "./types";
+import { Project as ProjectProps } from "../../types/types";
 
 export default function Students(props: ProjectProps) {
   const { id, title, image, description } = props;
