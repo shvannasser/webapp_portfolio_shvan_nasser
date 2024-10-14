@@ -28,16 +28,16 @@ app.use("/*", cors());
 //   },
 // ];
 
-let projects: Project[] = [];
+// let projects: Project[] = [];
 
-getProjectData()
-  .then((loadedProjects) => {
-    projects = loadedProjects;
-    // console.log("Projects loaded:", projects);
-  })
-  .catch((error) => {
-    console.error("Error loading projects:", error);
-  });
+// getProjectData()
+//   .then((loadedProjects) => {
+//     projects = loadedProjects;
+//     // console.log("Projects loaded:", projects);
+//   })
+//   .catch((error) => {
+//     console.error("Error loading projects:", error);
+//   });
 
 app.post("/api/projects", async (c) => {
   const projects = await getProjectData();
