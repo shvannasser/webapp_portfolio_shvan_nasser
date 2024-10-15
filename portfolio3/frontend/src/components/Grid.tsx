@@ -18,6 +18,9 @@ export default function GridProjects(props: GridProps) {
 
   const onAddProject = async (project: {
     title: string;
+    tags: string[];
+    isPublic: boolean;
+    publishedAt: string;
     image: string;
     description: string;
   }) => {
@@ -64,6 +67,9 @@ export default function GridProjects(props: GridProps) {
               <Project
                 id={project.id}
                 title={project.title}
+                tags={project.tags}
+                publishedAt={project.publishedAt}
+                isPublic={project.isPublic}
                 image={project.image}
                 description={project.description}
               />

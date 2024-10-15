@@ -1,8 +1,12 @@
 import { useState } from "react";
+import { format } from "date-fns";
 
 type AddProjectFormProps = {
   onAddProject: (project: {
     title: string;
+    tags: string[];
+    isPublic: boolean;
+    publishedAt: string;
     image: string;
     description: string;
   }) => void;
@@ -14,6 +18,9 @@ export default function AddProjectForm(props: AddProjectFormProps) {
   const { onAddProject } = props;
   const [project, setProject] = useState({
     title: "",
+    tags: [],
+    publishedAt: format(new Date(), "yyyy-MM-dd"),
+    isPublic: false,
     image: "",
     description: "",
   });
@@ -24,10 +31,19 @@ export default function AddProjectForm(props: AddProjectFormProps) {
     setShow(!show);
   };
 
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+    const tags = input.split(" ");
+
+    setProject({ ...project, tags });
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!project.title || !project.description)
-      return alert("Please fill out {title} and {description}");
+      return alert(
+        `Please fill out title and description and public fields before submitting`
+      );
     onAddProject(project);
   };
 
@@ -52,6 +68,33 @@ export default function AddProjectForm(props: AddProjectFormProps) {
             // onChange = {handleChange}
             onChange={(e) => setProject({ ...project, title: e.target.value })}
           />
+          <label htmlFor='tags'>Tags</label>
+          <input
+            type='text'
+            placeholder='Enter project tags'
+            id='tags'
+            value={project.tags}
+            onChange={handleTagsChange}
+          />
+          <label htmlFor='public'>Public</label>
+          <input
+            type='checkbox'
+            id='public'
+            value={project.isPublic ? "true" : "false"}
+            onChange={(e) =>
+              setProject({ ...project, isPublic: e.target.checked })
+            }
+          />
+          {/* <label htmlFor='publishedAt'>Published at</label>
+          <input
+            type='text'
+            placeholder='Enter project published at'
+            id='publishedAt'
+            value={project.publishedAt}
+            onChange={(e) =>
+              setProject({ ...project, publishedAt: e.target.value })
+            }
+          /> */}
           <label htmlFor='image'>Image</label>
           <input
             type='text'
@@ -60,6 +103,7 @@ export default function AddProjectForm(props: AddProjectFormProps) {
             value={project.image}
             onChange={(e) => setProject({ ...project, image: e.target.value })}
           />
+
           <label htmlFor='description'>Description</label>
           <input
             type='text'
