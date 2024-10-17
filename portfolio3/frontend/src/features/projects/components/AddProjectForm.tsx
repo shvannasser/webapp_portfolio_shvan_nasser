@@ -18,7 +18,7 @@ export default function AddProjectForm(props: AddProjectFormProps) {
   const { onAddProject } = props;
   const [project, setProject] = useState({
     title: "",
-    tags: [],
+    tags: [] as string[],
     publishedAt: format(new Date(), "yyyy-MM-dd"),
     isPublic: false,
     image: "",
@@ -42,7 +42,7 @@ export default function AddProjectForm(props: AddProjectFormProps) {
     e.preventDefault();
     if (!project.title || !project.description)
       return alert(
-        `Please fill out title and description and public fields before submitting`
+        `Please fill out title and description fields before submitting`
       );
     onAddProject(project);
   };
