@@ -1,11 +1,21 @@
 {
   "name": "backend",
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "prisma:init": "prisma init",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:generate": "prisma generate",
+    "prisma:seed": "prisma db seed",
+    "prisma:push": "prisma db push",
+    "prisma": {
+      "seed": "node prisma/seed.ts"
+    }
   },
   "dependencies": {
     "@hono/node-server": "^1.13.0",
-    "hono": "^4.6.2"
+    "@prisma/client": "^5.21.1",
+    "hono": "^4.6.2",
+    "prisma": "^5.21.1"
   },
   "devDependencies": {
     "@types/node": "^20.11.17",

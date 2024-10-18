@@ -6,6 +6,7 @@ type AddProjectFormProps = {
     title: string;
     tags: string[];
     isPublic: boolean;
+    status: boolean;
     publishedAt: string;
     image: string;
     description: string;
@@ -21,6 +22,7 @@ export default function AddProjectForm(props: AddProjectFormProps) {
     tags: [] as string[],
     publishedAt: format(new Date(), "yyyy-MM-dd"),
     isPublic: false,
+    status: false,
     image: "",
     description: "",
   });
@@ -83,6 +85,15 @@ export default function AddProjectForm(props: AddProjectFormProps) {
             value={project.isPublic ? "true" : "false"}
             onChange={(e) =>
               setProject({ ...project, isPublic: e.target.checked })
+            }
+          />
+          <label htmlFor='done'>Done</label>
+          <input
+            type='checkbox'
+            id='done'
+            value={project.status ? "true" : "false"}
+            onChange={(e) =>
+              setProject({ ...project, status: e.target.checked })
             }
           />
           {/* <label htmlFor='publishedAt'>Published at</label>

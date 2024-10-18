@@ -20,6 +20,8 @@ export default function GridProjects(props: GridProps) {
     title: string;
     tags: string[];
     isPublic: boolean;
+    status: boolean;
+
     publishedAt: string;
     image: string;
     description: string;
@@ -70,6 +72,7 @@ export default function GridProjects(props: GridProps) {
                 tags={project.tags}
                 publishedAt={project.publishedAt}
                 isPublic={project.isPublic}
+                status={project.status}
                 image={project.image}
                 description={project.description}
               />

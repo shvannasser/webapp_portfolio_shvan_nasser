@@ -5,5 +5,6 @@ export type Project = {
   publishedAt: string;
   isPublic: boolean;
   tags: string[];
+  status: boolean;
   description: string;
 };

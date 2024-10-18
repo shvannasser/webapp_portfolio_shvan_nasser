@@ -1,7 +1,8 @@
 import { Project as ProjectProps } from "../../types/types";
 
 export default function Students(props: ProjectProps) {
-  const { id, title, tags, publishedAt, isPublic, image, description } = props;
+  const { id, title, tags, publishedAt, isPublic, status, image, description } =
+    props;
 
   return (
     <section>
@@ -16,6 +17,7 @@ export default function Students(props: ProjectProps) {
       <section>
         <p>Published at: {publishedAt}</p>
         <p>{isPublic ? "Public" : "Private"}</p>
+        <p>{status ? "Done" : "Ongoing"}</p>
       </section>
     </section>
   );
