@@ -5,8 +5,8 @@ CREATE TABLE "Project" (
     "image" TEXT,
     "description" TEXT NOT NULL,
     "isPublic" BOOLEAN NOT NULL DEFAULT false,
-    "authorId" TEXT NOT NULL,
-    CONSTRAINT "Project_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    "authorId" TEXT,
+    CONSTRAINT "Project_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 -- CreateTable
@@ -19,17 +19,6 @@ CREATE TABLE "User" (
 CREATE TABLE "ProjectTag" (
     "id" TEXT NOT NULL PRIMARY KEY,
     "name" TEXT NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "ProjectFollow" (
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "userId" TEXT NOT NULL,
-    "projectId" TEXT NOT NULL,
-
-    PRIMARY KEY ("userId", "projectId"),
-    CONSTRAINT "ProjectFollow_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT "ProjectFollow_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable

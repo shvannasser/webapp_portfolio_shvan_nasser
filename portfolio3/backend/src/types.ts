@@ -4,6 +4,6 @@ export type Project = {
   img?: string;
   publishedAt: string;
   isPublic: boolean;
-  tags: string[];
+  tags?: string[];
   description: string;
 };
