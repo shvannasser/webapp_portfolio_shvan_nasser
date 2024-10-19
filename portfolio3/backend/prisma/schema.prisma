@@ -14,31 +14,41 @@ datasource db {
 }
 
 
+//   tags?: string[];
+
+
 
 model Project {
   id String @id @default(cuid())
   title String
   image String?
   description String 
-  isPublic Boolean @default(false) // feed "eier" relasjonen
-  author User? @relation(fields: [authorId], references: [id]) // Koble autherId til id
-  authorId String? // mange til mange
-  tags ProjectTag[]
+  isPublic Boolean @default(false) // project "eier" relasjonen
+  createdAt DateTime @default(now())
+  publishedAt DateTime? 
+  status Boolean @default(false)
+  // tags ProjectTag[] // en til mange => en project kan ha mange tags
+
+  // author User? @relation(fields: [authorId], references: [id]) // Koble autherId til id
+  // authorId String? // mange til mange
   // collaborators ProjectCollaborator[] // en til mange => en project kan ha mange followers
 }
 
-model User {
-  id String @id @default(cuid())
-  name String 
-  projects Project[] // en til mange => en bruker kan ha mange projects
-  // collaborators ProjectCollaborator[] // en til mange => en bruker kan følge mange projects
-}
+// model ProjectTag {
+//   id String @id @default(cuid())
+//   name String @unique // mange til mange
+//   projects Project[] // en til mange => en tag kan ha mange projects
+// }
 
-model ProjectTag {
-  id String @id @default(cuid())
-  name String @unique // mange til mange
-  projects Project[]
-}
+
+// model User {
+//   id String @id @default(cuid())
+//   name String 
+//   projects Project[] // en til mange => en bruker kan ha mange projects
+//   // collaborators ProjectCollaborator[] // en til mange => en bruker kan følge mange projects
+// }
+
+
 
 // model ProjectCollaborator {
 //   createdAt DateTime @default(now())
