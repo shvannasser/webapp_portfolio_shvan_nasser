@@ -14,8 +14,6 @@ datasource db {
 }
 
 
-//   tags?: string[];
-
 
 
 model Project {
@@ -27,8 +25,8 @@ model Project {
   createdAt DateTime @default(now())
   publishedAt DateTime? 
   status Boolean @default(false)
+  
   // tags ProjectTag[] // en til mange => en project kan ha mange tags
-
   // author User? @relation(fields: [authorId], references: [id]) // Koble autherId til id
   // authorId String? // mange til mange
   // collaborators ProjectCollaborator[] // en til mange => en project kan ha mange followers
