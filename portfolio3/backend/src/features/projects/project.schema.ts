@@ -3,7 +3,7 @@ import { z } from "zod";
 // User schema
 export const userSchema = z.object({
   id: z.string(),
-  name: z.string().min(1),
+  name: z.string().min(4),
 });
 
 // Project schema
@@ -16,6 +16,21 @@ export const projectSchema = z.object({
   createdAt: z.string().optional(),
   status: z.boolean().default(false),
   authorId: z.string(),
+  tags: z.array(z.string()).default([]),
+  collaborators: z.array(z.string()).default([]),
+});
+
+// export const projectResponse = projectSchema.extend({
+//   tags: z.array(z.object({ id: z.string(), name: z.string() })),
+//   collaborators: z.array(z.object({ id: z.string(), name: z.string() })),
+// });
+
+export const updateProject = projectSchema.omit({
+  createdAt: true,
+});
+
+export const createProject = projectSchema.omit({
+  createdAt: true,
 });
 
 // Tag schema
@@ -43,8 +58,16 @@ export type Project = z.infer<typeof projectSchema>;
 export type Tag = z.infer<typeof tagSchema>;
 export type ProjectTag = z.infer<typeof projectTagSchema>;
 export type ProjectCollaborator = z.infer<typeof projectCollaboratorSchema>;
+export type UpdateProject = z.infer<typeof updateProject>;
+export type CreateProject = z.infer<typeof createProject>;
+// export type ProjectResponse = z.infer<typeof projectResponse>;
 
 // Validation functions
+
+export const validateCreateProject = (data: unknown) => {
+  return createProject.safeParse(data);
+};
+
 export const validateProject = (data: unknown) => {
   return projectSchema.safeParse(data);
 };

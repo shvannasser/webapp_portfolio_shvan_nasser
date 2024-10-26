@@ -7,7 +7,7 @@ export type PaginationParams = {
 } | null;
 
 const querySchema = z.object({
-  name: z.string().optional(),
+  title: z.string().optional(),
   offset: z.string().optional(),
   pageSize: z.string().optional(),
   page: z.string().optional(),
