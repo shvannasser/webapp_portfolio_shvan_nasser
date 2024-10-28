@@ -1,31 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 
 export const useApi = () => {
-  const [data, setData] = useState<any>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [data, setData] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const getData = async () => {
-      setIsLoading(true);
+      setIsLoading(true)
       try {
-        const response = await fetch("http://localhost:3999");
-        const result = await response.json();
-        setData(result.data);
-        setError(null);
+        const response = await fetch("http://localhost:3999")
+        const result = await response.json()
+        setData(result.data)
+        setError(null)
       } catch (err) {
-        setError(err.message);
-        setData(null);
+        setError(err.message)
+        setData(null)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
+    }
 
-    getData();
-  }, []);
+    getData()
+  }, [])
 
-  return { data, isLoading, error };
-};
+  return { data, isLoading, error }
+}
 
 // import axios from "axios";
 // import { useState } from "react";

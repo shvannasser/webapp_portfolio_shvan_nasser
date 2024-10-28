@@ -1,27 +1,33 @@
-import { port } from "/Config/config.ts";
-import { serve } from "@hono/node-server";
-import { Hono } from "hono";
-import { cors } from "hono/cors";
-import { getProjectData, updateProjectData } from "./lib";
-import { Project } from "./types";
+import { serve } from "@hono/node-server"
+import { Hono } from "hono"
+import { cors } from "hono/cors"
+import { getProjectData, updateProjectData } from "./lib"
+import { port } from "./config"
+import {
+  createProjectController,
+  getProjectsController,
+} from "./features/projects/project.controller"
 
-const app = new Hono();
-app.use("/*", cors());
+const app = new Hono()
+app.use("/*", cors())
 
-app.post("/api/projects", async (c) => {
-  const projects = await getProjectData();
+app.get("/api/projects", getProjectsController)
+app.post("/api/projects", createProjectController)
 
-  const project = await c.req.json();
-  const projectWithId = { id: crypto.randomUUID(), ...project };
-  projects.push(projectWithId);
-  await updateProjectData(projects);
-  return c.json({ project: projectWithId }, 201);
-});
+// app.post("/api/projects", async (c) => {
+//   const projects = await getProjectData()
 
-app.get("/", async (c) => {
-  const data = await getProjectData();
-  return c.json({ data });
-});
+//   const project = await c.req.json()
+//   const projectWithId = { id: crypto.randomUUID(), ...project }
+//   projects.push(projectWithId)
+//   await updateProjectData(projects)
+//   return c.json({ project: projectWithId }, 201)
+// })
+
+// app.get("/", async (c) => {
+//   const data = await getProjectData()
+//   return c.json({ data })
+// })
 
 // app.post("/api/projects", async (c) => {
 //   const project = await c.req.json();
@@ -33,9 +39,9 @@ app.get("/", async (c) => {
 //   return c.json(projects);
 // });
 
-console.log(`Server is running on port ${port}`);
+console.log(`Server is running on port ${port}`)
 
 serve({
   fetch: app.fetch,
   port,
-});
+})
