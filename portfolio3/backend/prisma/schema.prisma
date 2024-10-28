@@ -21,42 +21,39 @@ model Project {
   title String
   image String?
   description String 
-  isPublic Boolean @default(false) // project "eier" relasjonen
+  isPublic Boolean @default(false)
   createdAt DateTime @default(now())
   publishedAt DateTime? 
   status Boolean @default(false)
   
-  tags ProjectTag[] // en til mange => en project kan ha mange tags
-  author User? @relation(fields: [authorId], references: [id]) // Koble autherId til id
-  authorId String? // en til mange => en bruker kan ha mange projects
-  collaborators ProjectCollaborator[] // en til mange => en project kan ha mange collaborators
-  @@index([authorId]) //indexes for å søke på flere ting samtidig
-
+  tags ProjectTag[] // mange til mange gjennom ProjectTag tabellen
+  author User @relation(fields: [authorId], references: [id]) // Koble autherId til id
+  authorId String 
+  collaborators ProjectCollaborator[] // mange til mange gjennom ProjectCollaborator tabellen
+  @@index([authorId]) //indexes for å optimalisere søk på authorId
 }
 
 model ProjectTag {
   id String @id @default(cuid())
-  name String @unique // mange til mange
-  projects Project[] // en til mange => en tag kan ha mange projects. For å enkelt filtere på tags
+  name String @unique // unik tag for å unngå duplikater
+  projects Project[] // mange til mange med projects
 }
 
 
 model User {
   id String @id @default(cuid())
   name String 
-  projects Project[] // en til mange => en bruker kan ha mange projects
-  collaborators ProjectCollaborator[] // en til mange => en bruker kan jobbe på mange projects
-
+  projects Project[] 
+  collaborators ProjectCollaborator[] // mange til mange gjennom ProjectCollaborator tabellen
 }
 
 model ProjectCollaborator {
   createdAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id]) // mange til mange med user
+  user User @relation(fields: [userId], references: [id]) // foreing key til bruker
   userId String
-  project Project @relation(fields: [projectId], references: [id]) // mange til mange med project
+  project Project @relation(fields: [projectId], references: [id]) // foreign key til project
   projectId String
-
   @@id([userId, projectId]) // sørger for at userId og projectId er unike sammen
-  @@index([userId, projectId]) //indexes for å søke på flere ting samtidig
+  @@index([userId, projectId]) //indexes for å optimalisere søk på userId og projectId
 }
 

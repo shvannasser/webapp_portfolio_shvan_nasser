@@ -7,43 +7,34 @@
     {
       "id": "project1",
       "title": "Project A",
-      "image": "https://via.placeholder.com/150",
+      "image": "",
       "description": "Description of Project A",
       "isPublic": true,
       "createdAt": "2023-01-01T00:00:00.000Z",
       "status": true,
-      "authorId": "user1"
+      "authorId": "user1",
+      "tags": [{ "tagId": "tag1" }, { "tagId": "tag2" }],
+      "collaborators": [
+        { "userId": "user2", "createdAt": "2023-01-03T00:00:00.000Z" }
+      ]
     },
     {
       "id": "project2",
       "title": "Project B",
-      "image": "https://via.placeholder.com/150",
+      "image": "",
       "description": "Description of Project B",
       "isPublic": false,
       "createdAt": "2023-01-02T00:00:00.000Z",
       "status": false,
-      "authorId": "user2"
+      "authorId": "user2",
+      "tags": [{ "tagId": "tag1" }],
+      "collaborators": [
+        { "userId": "user1", "createdAt": "2023-01-04T00:00:00.000Z" }
+      ]
     }
   ],
   "tags": [
     { "id": "tag1", "name": "JavaScript" },
     { "id": "tag2", "name": "TypeScript" }
-  ],
-  "projectTags": [
-    { "projectId": "project1", "tagId": "tag1" },
-    { "projectId": "project1", "tagId": "tag2" },
-    { "projectId": "project2", "tagId": "tag1" }
-  ],
-  "projectCollaborators": [
-    {
-      "userId": "user1",
-      "projectId": "project2",
-      "createdAt": "2023-01-03T00:00:00.000Z"
-    },
-    {
-      "userId": "user2",
-      "projectId": "project1",
-      "createdAt": "2023-01-04T00:00:00.000Z"
-    }
   ]
 }

@@ -8,8 +8,8 @@ CREATE TABLE "Project" (
     "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "publishedAt" DATETIME,
     "status" BOOLEAN NOT NULL DEFAULT false,
-    "authorId" TEXT,
-    CONSTRAINT "Project_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+    "authorId" TEXT NOT NULL,
+    CONSTRAINT "Project_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateTable
