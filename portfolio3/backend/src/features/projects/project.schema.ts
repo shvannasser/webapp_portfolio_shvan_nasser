@@ -68,6 +68,10 @@ export const validateCreateProject = (data: unknown) => {
   return createProject.safeParse(data);
 };
 
+export const validateUpdateProject = (data: unknown) => {
+  return updateProject.safeParse(data);
+};
+
 export const validateProject = (data: unknown) => {
   return projectSchema.safeParse(data);
 };

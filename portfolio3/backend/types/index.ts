@@ -14,13 +14,27 @@ export type Result<T> =
       };
     };
 
+export type Collaborator = {
+  user: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
+};
+
+export type Tag = {
+  id: string;
+  name: string;
+};
+
 export type Project = {
   id: string;
   title: string;
-  img?: string;
+  image?: string;
   publishedAt: string;
   isPublic: boolean;
   status: boolean;
-  tags?: string[];
   description: string;
+  tags?: Tag[];
+  collaborators?: Collaborator[];
 };

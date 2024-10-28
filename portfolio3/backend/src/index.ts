@@ -1,18 +1,25 @@
-import { serve } from "@hono/node-server"
-import { Hono } from "hono"
-import { cors } from "hono/cors"
-import { getProjectData, updateProjectData } from "./lib"
-import { port } from "./config"
+import { serve } from "@hono/node-server";
+import { Hono } from "hono";
+import { cors } from "hono/cors";
+import { getProjectData, updateProjectData } from "./lib";
+import { port } from "./config";
 import {
   createProjectController,
   getProjectsController,
-} from "./features/projects/project.controller"
+} from "./features/projects/project.controller";
 
-const app = new Hono()
-app.use("/*", cors())
+const app = new Hono();
+app.use("/*", cors());
 
-app.get("/api/projects", getProjectsController)
-app.post("/api/projects", createProjectController)
+app.get("/api/projects", getProjectsController);
+app.post("/api/projects", createProjectController);
+
+console.log(`Server is running on port ${port}`);
+
+serve({
+  fetch: app.fetch,
+  port,
+});
 
 // app.post("/api/projects", async (c) => {
 //   const projects = await getProjectData()
@@ -38,10 +45,3 @@ app.post("/api/projects", createProjectController)
 // app.get("/", (c) => {
 //   return c.json(projects);
 // });
-
-console.log(`Server is running on port ${port}`)
-
-serve({
-  fetch: app.fetch,
-  port,
-})

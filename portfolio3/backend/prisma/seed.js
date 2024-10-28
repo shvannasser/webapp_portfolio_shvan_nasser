@@ -43,6 +43,7 @@ async function main() {
         image: project.image,
         description: project.description,
         isPublic: project.isPublic,
+        publishedAt: new Date(project.publishedAt),
         createdAt: new Date(project.createdAt),
         status: project.status,
         authorId: project.authorId,

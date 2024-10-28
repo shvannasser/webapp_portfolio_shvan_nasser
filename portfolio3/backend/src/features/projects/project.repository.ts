@@ -1,15 +1,21 @@
-import { PrismaClient } from "@prisma/client"
+import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export const getProjects = async () => {
-  return await prisma.project.findMany({
+  const projects = await prisma.project.findMany({
     include: {
+      author: true,
       tags: true,
       collaborators: { include: { user: true } },
     },
-  })
-}
+  });
+
+  return projects.map((project) => ({
+    ...project,
+    authorName: project.author.name,
+  }));
+};
 
 export const createProject = async (projectData: any) => {
   return await prisma.project.create({
@@ -25,8 +31,8 @@ export const createProject = async (projectData: any) => {
         })),
       },
     },
-  })
-}
+  });
+};
 
 // import { PrismaClient } from "@prisma/client"
 // import type { Project, CreateProject, UpdateProject } from "./project.schema"

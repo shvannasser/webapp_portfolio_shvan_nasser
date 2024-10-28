@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Project from "../features/projects/Project";
-import type { Project as ProjectProp } from "../types/types";
+import type { Collaborator, Project as ProjectProp, Tag } from "../types/types";
 import AddProjectForm from "../features/projects/components/AddProjectForm";
 
 type GridProps = {
@@ -18,13 +18,15 @@ export default function GridProjects(props: GridProps) {
 
   const onAddProject = async (project: {
     title: string;
-    tags: string[];
     isPublic: boolean;
     status: boolean;
-
     publishedAt: string;
     image: string;
     description: string;
+    authorId: string;
+    authorName: string;
+    tags: Tag[];
+    collaborators: Collaborator[];
   }) => {
     try {
       const response = await fetch("http://localhost:3999/api/projects", {
@@ -69,12 +71,15 @@ export default function GridProjects(props: GridProps) {
               <Project
                 id={project.id}
                 title={project.title}
-                tags={project.tags}
                 publishedAt={project.publishedAt}
                 isPublic={project.isPublic}
                 status={project.status}
                 image={project.image}
                 description={project.description}
+                authorId={project.authorId}
+                authorName={project.authorName}
+                tags={project.tags}
+                collaborators={project.collaborators}
               />
             </div>
           ))

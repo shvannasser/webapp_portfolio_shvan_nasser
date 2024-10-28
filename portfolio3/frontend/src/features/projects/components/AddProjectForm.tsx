@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { format } from "date-fns";
+import { Collaborator, Tag } from "../../../types/types";
 
 type AddProjectFormProps = {
   onAddProject: (project: {
     title: string;
-    tags: string[];
     isPublic: boolean;
     status: boolean;
     publishedAt: string;
+    authorId: string;
+    authorName: string;
     image: string;
     description: string;
+    tags: Tag[];
+    collaborators: Collaborator[];
   }) => void;
 };
 
@@ -19,12 +23,15 @@ export default function AddProjectForm(props: AddProjectFormProps) {
   const { onAddProject } = props;
   const [project, setProject] = useState({
     title: "",
-    tags: [] as string[],
     publishedAt: format(new Date(), "yyyy-MM-dd"),
     isPublic: false,
     status: false,
+    authorName: "",
+    authorId: "",
     image: "",
     description: "",
+    collaborators: [] as Collaborator[],
+    tags: [] as Tag[],
   });
 
   const [show, setShow] = useState(false);
@@ -33,11 +40,32 @@ export default function AddProjectForm(props: AddProjectFormProps) {
     setShow(!show);
   };
 
+  // const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const input = e.target.value;
+  //   let tags = input.split(" ");
+
+  //   setProject({ ...project, tags });
+  // };
   const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;
-    const tags = input.split(" ");
+    const tags = input.split(",").map((tag) => ({
+      id: tag.trim().toLowerCase().replace(/\s+/g, ""), // Convert to lowercase and remove spaces
+      name: tag.trim(),
+    }));
 
     setProject({ ...project, tags });
+  };
+
+  const handleCollaboratorsChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const input = e.target.value;
+    const collaborators = input.split(" ").map((collaborator) => ({
+      user: { id: collaborator, name: collaborator },
+      createdAt: new Date().toISOString(),
+    }));
+
+    setProject({ ...project, collaborators });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -70,14 +98,54 @@ export default function AddProjectForm(props: AddProjectFormProps) {
             // onChange = {handleChange}
             onChange={(e) => setProject({ ...project, title: e.target.value })}
           />
-          <label htmlFor='tags'>Tags</label>
+          <label htmlFor='tags'>Project Tags</label>
           <input
             type='text'
-            placeholder='Enter project tags'
+            placeholder='Enter project tags separated by commas'
             id='tags'
-            value={project.tags}
+            value={project.tags.map((tag) => tag.name).join(", ")}
             onChange={handleTagsChange}
           />
+          <label htmlFor='authorName'>Author Name</label>
+          <input
+            type='text'
+            placeholder='Enter author name'
+            id='authorName'
+            value={project.authorName}
+            onChange={(e) =>
+              setProject({ ...project, authorName: e.target.value })
+            }
+          />
+          {/* <label htmlFor='authorId'>Author Id</label>
+          <input
+            type='text'
+            placeholder='Enter author id'
+            id='authorId'
+            value={project.authorId}
+            onChange={(e) =>
+              setProject({ ...project, authorId: e.target.value })
+            }
+          /> */}
+          {/* <label htmlFor='publishedAt'>Published at</label>
+          <input
+            type='text'
+            placeholder='Enter project published at'
+            id='publishedAt'
+            value={project.publishedAt}
+            onChange={(e) =>
+              setProject({ ...project, publishedAt: e.target.value })
+            }
+          /> */}
+          <label htmlFor='collaborators'>Project Collaborators</label>
+          <input
+            type='text'
+            id='collaborators'
+            value={project.collaborators
+              .map((collaborator) => collaborator.user.name)
+              .join(" ")}
+            onChange={handleCollaboratorsChange}
+          />
+
           <label htmlFor='public'>Public</label>
           <input
             type='checkbox'
