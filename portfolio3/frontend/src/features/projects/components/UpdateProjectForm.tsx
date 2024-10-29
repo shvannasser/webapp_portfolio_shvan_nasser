@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { Project } from "../../../types/types";
+import type { Project as ProjectType } from "../../../types/types";
 
-type AddProjectFormProps = {
-  onAddProject: (project: Project) => Promise<void>;
+type UpdateProjectFormProps = {
+  project: ProjectType | null;
   onUpdateProject: (
     projectId: string,
-    projectData: Partial<Project>
+    projectData: Partial<ProjectType>
   ) => Promise<void>;
-  editingProject: Project | null; // Prop for the project being edited
-  onClose: () => void; // Prop to close the form
+  onClose: () => void;
 };
 
-const AddProjectForm: React.FC<AddProjectFormProps> = ({
-  onAddProject,
-  onUpdateProject,
-  editingProject,
-  onClose,
-}) => {
-  const [project, setProject] = useState<Project>({
+export default function UpdateProjectForm(props: UpdateProjectFormProps) {
+  const { project, onUpdateProject, onClose } = props;
+  const [editableProject, setEditableProject] = useState<ProjectType>({
     id: "",
     title: "",
     isPublic: false,
@@ -30,41 +25,32 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
   });
 
   useEffect(() => {
-    if (editingProject) {
-      setProject(editingProject); // Pre-fill the form with the current project data
-    } else {
-      setProject({
-        id: "",
-        title: "",
-        isPublic: false,
-        status: false,
-        image: "",
-        description: "",
-        createdAt: format(new Date(), "yyyy-MM-dd"),
-        publishedAt: format(new Date(), "yyyy-MM-dd"),
+    if (project) {
+      setEditableProject({
+        ...project,
+        image: project.image || "", // Provide a default value for image if undefined
       });
     }
-  }, [editingProject]);
+  }, [project]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editingProject) {
-      await onUpdateProject(editingProject.id, project);
-    } else {
-      await onAddProject(project);
-    }
-    setProject({
-      id: "",
-      title: "",
-      isPublic: false,
-      status: false,
-      image: "",
-      description: "",
-      createdAt: format(new Date(), "yyyy-MM-dd"),
-      publishedAt: format(new Date(), "yyyy-MM-dd"),
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value, type } = e.target as HTMLInputElement;
+    const checked = (e.target as HTMLInputElement).checked;
+    setEditableProject({
+      ...editableProject,
+      [name]: type === "checkbox" ? checked : value,
     });
-    onClose(); // Close the form after submission
   };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onUpdateProject(editableProject.id, editableProject);
+    onClose(); // Close the form after updating
+  };
+
+  if (!project) return null; // Don't render the form if no project is selected
 
   return (
     <div className='modal'>
@@ -78,54 +64,49 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
             type='text'
             placeholder='Enter project title'
             id='title'
-            value={project.title}
-            onChange={(e) => setProject({ ...project, title: e.target.value })}
+            name='title'
+            value={editableProject.title}
+            onChange={handleChange}
           />
 
           <label htmlFor='public'>Public</label>
           <input
             type='checkbox'
             id='public'
-            checked={project.isPublic}
-            onChange={(e) =>
-              setProject({ ...project, isPublic: e.target.checked })
-            }
+            name='isPublic'
+            checked={editableProject.isPublic}
+            onChange={handleChange}
           />
 
           <label htmlFor='status'>Status</label>
           <input
             type='checkbox'
             id='status'
-            checked={project.status}
-            onChange={(e) =>
-              setProject({ ...project, status: e.target.checked })
-            }
+            name='status'
+            checked={editableProject.status}
+            onChange={handleChange}
           />
 
           <label htmlFor='image'>Project Image URL</label>
           <input
             type='text'
             id='image'
-            value={project.image}
-            onChange={(e) => setProject({ ...project, image: e.target.value })}
+            name='image'
+            value={editableProject.image}
+            onChange={handleChange}
           />
 
           <label htmlFor='description'>Description</label>
           <textarea
             id='description'
-            value={project.description}
-            onChange={(e) =>
-              setProject({ ...project, description: e.target.value })
-            }
+            name='description'
+            value={editableProject.description}
+            onChange={handleChange}
           />
 
-          <button type='submit'>
-            {editingProject ? "Update Project" : "Add Project"}
-          </button>
+          <button type='submit'>Update Project</button>
         </form>
       </div>
     </div>
   );
-};
-
-export default AddProjectForm;
+}

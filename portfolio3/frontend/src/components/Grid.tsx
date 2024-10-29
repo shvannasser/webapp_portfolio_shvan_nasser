@@ -13,6 +13,8 @@ export default function GridProjects(props: GridProps) {
   const [editingProject, setEditingProject] = useState<ProjectProp | null>(
     null
   );
+  const [showModal, setShowModal] = useState(false); // State for showing the modal
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
@@ -106,7 +108,13 @@ export default function GridProjects(props: GridProps) {
   };
 
   const onEditProject = (project: ProjectProp) => {
-    setEditingProject(project);
+    setEditingProject(project); // Set the project to be edited
+    setShowModal(true); // Show the modal
+  };
+
+  const handleCloseModal = () => {
+    setEditingProject(null);
+    setShowModal(false);
   };
 
   return (
@@ -119,9 +127,8 @@ export default function GridProjects(props: GridProps) {
               <Project
                 key={project.id}
                 {...project}
-                onUpdateProject={onUpdateProject}
                 onDeleteProject={onDeleteProject}
-                onEditProject={onEditProject} // Pass the edit handler to the project component
+                onEditProject={onEditProject}
               />
             </div>
           ))
@@ -145,11 +152,13 @@ export default function GridProjects(props: GridProps) {
       </article>
       <AddProjectForm onAddProject={onAddProject} />
 
-      <UpdateProjectForm
-        project={editingProject}
-        onUpdateProject={onUpdateProject}
-        onClose={() => setEditingProject(null)} // Close the form
-      />
+      {showModal && (
+        <UpdateProjectForm
+          project={editingProject}
+          onUpdateProject={onUpdateProject}
+          onClose={handleCloseModal}
+        />
+      )}
     </section>
     // <section>
     //   <h2>Mine prosjekter</h2>

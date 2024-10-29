@@ -20,7 +20,7 @@ export default function Project(props: ProjectComponentProps) {
     onEditProject,
   } = props;
   const handleEditClick = () => {
-    onEditProject(props); // Call the onEditProject prop with the current project data
+    onEditProject(props);
   };
 
   return (
