@@ -39,9 +39,11 @@ export default function Project(props: ProjectComponentProps) {
       <p>{description}</p>
       <section>
         <p>Created at: {format(new Date(createdAt), "yyyy-MM-dd")}</p>
-        <p>Published at: {format(new Date(publishedAt), "yyyy-MM-dd")}</p>
-        <p>{isPublic ? "Public" : "Private"}</p>
-        <p>{status ? "Published" : "Draft"}</p>
+        {status && (
+          <p>Published at: {format(new Date(publishedAt), "yyyy-MM-dd")}</p>
+        )}{" "}
+        <p>Visibility: {isPublic ? "Public" : "Private"}</p>
+        <p>Status: {status ? "Published" : "Draft"}</p>
       </section>
     </section>
   );

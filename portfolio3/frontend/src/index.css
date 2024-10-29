@@ -303,3 +303,12 @@ footer {
 .projectForm button:hover {
   background-color: var(--secondary-hover);
 }
+
+.public-status-checkBox {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+input#public {
+  margin-right: 0.5rem;
+}

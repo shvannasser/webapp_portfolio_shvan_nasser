@@ -68,24 +68,24 @@ export default function UpdateProjectForm(props: UpdateProjectFormProps) {
             value={editableProject.title}
             onChange={handleChange}
           />
-
-          <label htmlFor='public'>Public</label>
-          <input
-            type='checkbox'
-            id='public'
-            name='isPublic'
-            checked={editableProject.isPublic}
-            onChange={handleChange}
-          />
-
-          <label htmlFor='status'>Status</label>
-          <input
-            type='checkbox'
-            id='status'
-            name='status'
-            checked={editableProject.status}
-            onChange={handleChange}
-          />
+          <div className='public-status-checkBox'>
+            <label htmlFor='public'>Public</label>
+            <input
+              type='checkbox'
+              id='public'
+              name='isPublic'
+              checked={editableProject.isPublic}
+              onChange={handleChange}
+            />
+            <label htmlFor='status'>Status</label>
+            <input
+              type='checkbox'
+              id='status'
+              name='status'
+              checked={editableProject.status}
+              onChange={handleChange}
+            />{" "}
+          </div>
 
           <label htmlFor='image'>Project Image URL</label>
           <input
