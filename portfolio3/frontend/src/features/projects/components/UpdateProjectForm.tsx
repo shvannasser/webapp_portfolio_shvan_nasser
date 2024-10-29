@@ -28,7 +28,7 @@ export default function UpdateProjectForm(props: UpdateProjectFormProps) {
     if (project) {
       setEditableProject({
         ...project,
-        image: project.image || "", // Provide a default value for image if undefined
+        image: project.image || "",
       });
     }
   }, [project]);
@@ -47,10 +47,10 @@ export default function UpdateProjectForm(props: UpdateProjectFormProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onUpdateProject(editableProject.id, editableProject);
-    onClose(); // Close the form after updating
+    onClose();
   };
 
-  if (!project) return null; // Don't render the form if no project is selected
+  if (!project) return null;
 
   return (
     <div className='modal'>

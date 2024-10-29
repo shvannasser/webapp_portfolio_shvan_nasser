@@ -27,10 +27,11 @@ export default function Project(props: ProjectComponentProps) {
     <section>
       <div className='button-projects'>
         <button onClick={handleEditClick}>Edit</button>
-        <button onClick={() => onDeleteProject(id)}>Delete</button>
+        <button id='delete-button' onClick={() => onDeleteProject(id)}>
+          Delete
+        </button>
       </div>
       <h2>{title}</h2>
-
       <img
         id='project-image'
         src={image || "/bilder/placeholder.png"}
@@ -47,28 +48,4 @@ export default function Project(props: ProjectComponentProps) {
       </section>
     </section>
   );
-  // return (
-  //   <section>
-  //     <div className='button-projects'>
-  //       <button onClick={() => onUpdateProject(id, { isPublic: !isPublic })}>
-  //         {isPublic ? "Make Private" : "Make Public"}
-  //       </button>
-  //       <button onClick={() => onDeleteProject(id)}>X</button>
-  //     </div>
-  //     <h2>{title}</h2>
-
-  //     <img
-  //       id='project-image'
-  //       src={image || "/bilder/placeholder.png"}
-  //       alt={`${title} picture`}
-  //     />
-  //     <p> {description}</p>
-  //     <section>
-  //       <p>Created at: {format(new Date(createdAt), "yyyy-MM-dd")}</p>
-  //       <p>Published at: {format(new Date(publishedAt), "yyyy-MM-dd")}</p>
-  //       <p>{isPublic ? "Public" : "Private"}</p>
-  //       <p>{status ? "Published" : "Draft"}</p>
-  //     </section>
-  //   </section>
-  // );
 }

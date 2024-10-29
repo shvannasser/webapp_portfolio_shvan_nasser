@@ -312,3 +312,22 @@ footer {
 input#public {
   margin-right: 0.5rem;
 }
+
+.add-new-project-button {
+  text-align: end;
+}
+
+.error-messages {
+  margin-bottom: 10px;
+  text-align: center;
+  color: red;
+}
+
+.error-message {
+  margin: 0;
+  padding: 0;
+}
+
+button#delete-button:hover {
+  background-color: red;
+}

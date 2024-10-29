@@ -13,7 +13,8 @@ export default function GridProjects(props: GridProps) {
   const [editingProject, setEditingProject] = useState<ProjectProp | null>(
     null
   );
-  const [showModal, setShowModal] = useState(false); // State for showing the modal
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -64,7 +65,7 @@ export default function GridProjects(props: GridProps) {
           project.id === projectId ? updatedProject.project : project
         )
       );
-      setEditingProject(null); // Close the form after updating
+      setEditingProject(null); // Lukk modalen etter oppdatert innhold
     } catch (error) {
       console.error("Error updating project:", error);
     }
@@ -108,18 +109,25 @@ export default function GridProjects(props: GridProps) {
   };
 
   const onEditProject = (project: ProjectProp) => {
-    setEditingProject(project); // Set the project to be edited
-    setShowModal(true); // Show the modal
+    setEditingProject(project);
+    setShowUpdateModal(true);
   };
 
-  const handleCloseModal = () => {
+  const handleCloseAddModal = () => {
+    setShowAddModal(false);
+  };
+
+  const handleCloseUpdateModal = () => {
     setEditingProject(null);
-    setShowModal(false);
+    setShowUpdateModal(false);
   };
 
   return (
     <section>
       <h2>Mine prosjekter</h2>
+      <div className='add-new-project-button'>
+        <button onClick={() => setShowAddModal(true)}>Add new project</button>
+      </div>
       <article id='projects'>
         {currentProjects.length > 0 ? (
           currentProjects.map((project) => (
@@ -150,50 +158,19 @@ export default function GridProjects(props: GridProps) {
           </button>
         </article>
       </article>
-      <AddProjectForm onAddProject={onAddProject} />
-
-      {showModal && (
+      {showAddModal && (
+        <AddProjectForm
+          onAddProject={onAddProject}
+          onClose={handleCloseAddModal}
+        />
+      )}
+      {showUpdateModal && (
         <UpdateProjectForm
           project={editingProject}
           onUpdateProject={onUpdateProject}
-          onClose={handleCloseModal}
+          onClose={handleCloseUpdateModal}
         />
       )}
     </section>
-    // <section>
-    //   <h2>Mine prosjekter</h2>
-    //   <article id='projects'>
-    //     {currentProjects.length > 0 ? (
-    //       currentProjects.map((project) => (
-    //         <div key={project.id} className='projects-item'>
-    //           <Project
-    //             key={project.id}
-    //             {...project}
-    //             onUpdateProject={onUpdateProject}
-    //             onDeleteProject={onDeleteProject}
-    //           />
-    //         </div>
-    //       ))
-    //     ) : (
-    //       <p>No projects to display</p>
-    //     )}
-    //     <article id='pagination'>
-    //       <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-    //         Previous
-    //       </button>
-    //       <span>
-    //         Page: {currentPage} / {totalPages}
-    //       </span>
-    //       <button
-    //         onClick={handleNextPage}
-    //         disabled={currentPage === totalPages}
-    //       >
-    //         Next
-    //       </button>
-    //     </article>
-    //   </article>
-
-    //   <AddProjectForm onAddProject={onAddProject} />
-    // </section>
   );
 }
