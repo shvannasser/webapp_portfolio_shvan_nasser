@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { format } from "date-fns";
+import type { Project as ProjectProp } from "../../../types/types";
 
 type AddProjectFormProps = {
-  onAddProject: (project: {
-    title: string;
-    isPublic: boolean;
-    status: boolean;
-    image: string;
-    description: string;
-  }) => void;
+  onAddProject: (project: ProjectProp) => Promise<void>;
+
+  // onAddProject: (project: {
+  //   id: string;
+  //   title: string;
+  //   isPublic: boolean;
+  //   status: boolean;
+  //   image: string;
+  //   description: string;
+  //   createdAt?: string;
+  //   publishedAt?: string;
+  // }) => void;
 };
 
 // {title}: {title: string}, {description}: {description: string}) => void}
@@ -16,6 +22,7 @@ type AddProjectFormProps = {
 export default function AddProjectForm(props: AddProjectFormProps) {
   const { onAddProject } = props;
   const [project, setProject] = useState({
+    id: "",
     title: "",
     isPublic: false,
     status: false,

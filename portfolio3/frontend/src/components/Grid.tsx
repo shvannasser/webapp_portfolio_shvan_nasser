@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Project from "../features/projects/Project";
 import type { Project as ProjectProp, ProjectReuse } from "../types/types";
 import AddProjectForm from "../features/projects/components/AddProjectForm";
+import UpdateProjectForm from "../features/projects/components/UpdateProjectForm";
 
 type GridProps = {
   projects: ProjectProp[];
@@ -9,6 +10,9 @@ type GridProps = {
 
 export default function GridProjects(props: GridProps) {
   const [projects, setProjects] = useState<ProjectProp[]>(props.projects ?? []);
+  const [editingProject, setEditingProject] = useState<ProjectProp | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
@@ -16,15 +20,7 @@ export default function GridProjects(props: GridProps) {
     setProjects(props.projects);
   }, [props.projects]);
 
-  const onAddProject = async (project: {
-    title: string;
-    isPublic: boolean;
-    status: boolean;
-    publishedAt: string;
-    createdAt: string;
-    image: string;
-    description: string;
-  }) => {
+  const onAddProject = async (project: ProjectProp) => {
     try {
       const response = await fetch("http://localhost:3999/api/projects", {
         method: "POST",
@@ -42,7 +38,7 @@ export default function GridProjects(props: GridProps) {
 
   const onUpdateProject = async (
     projectId: string,
-    projectData: ProjectReuse
+    projectData: Partial<ProjectReuse>
   ) => {
     try {
       const response = await fetch(
@@ -66,6 +62,7 @@ export default function GridProjects(props: GridProps) {
           project.id === projectId ? updatedProject.project : project
         )
       );
+      setEditingProject(null); // Close the form after updating
     } catch (error) {
       console.error("Error updating project:", error);
     }
@@ -108,6 +105,10 @@ export default function GridProjects(props: GridProps) {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
 
+  const onEditProject = (project: ProjectProp) => {
+    setEditingProject(project);
+  };
+
   return (
     <section>
       <h2>Mine prosjekter</h2>
@@ -120,22 +121,8 @@ export default function GridProjects(props: GridProps) {
                 {...project}
                 onUpdateProject={onUpdateProject}
                 onDeleteProject={onDeleteProject}
+                onEditProject={onEditProject} // Pass the edit handler to the project component
               />
-
-              {/* <Project
-                id={project.id}
-                title={project.title}
-                publishedAt={project.publishedAt}
-                createdAt={project.createdAt}
-                isPublic={project.isPublic}
-                status={project.status}
-                image={project.image}
-                description={project.description}
-                // authorId={project.authorId}
-                // authorName={project.authorName}
-                // tags={project.tags}
-                // collaborators={project.collaborators}
-              /> */}
             </div>
           ))
         ) : (
@@ -156,8 +143,48 @@ export default function GridProjects(props: GridProps) {
           </button>
         </article>
       </article>
-
       <AddProjectForm onAddProject={onAddProject} />
+
+      <UpdateProjectForm
+        project={editingProject}
+        onUpdateProject={onUpdateProject}
+        onClose={() => setEditingProject(null)} // Close the form
+      />
     </section>
+    // <section>
+    //   <h2>Mine prosjekter</h2>
+    //   <article id='projects'>
+    //     {currentProjects.length > 0 ? (
+    //       currentProjects.map((project) => (
+    //         <div key={project.id} className='projects-item'>
+    //           <Project
+    //             key={project.id}
+    //             {...project}
+    //             onUpdateProject={onUpdateProject}
+    //             onDeleteProject={onDeleteProject}
+    //           />
+    //         </div>
+    //       ))
+    //     ) : (
+    //       <p>No projects to display</p>
+    //     )}
+    //     <article id='pagination'>
+    //       <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+    //         Previous
+    //       </button>
+    //       <span>
+    //         Page: {currentPage} / {totalPages}
+    //       </span>
+    //       <button
+    //         onClick={handleNextPage}
+    //         disabled={currentPage === totalPages}
+    //       >
+    //         Next
+    //       </button>
+    //     </article>
+    //   </article>
+
+    //   <AddProjectForm onAddProject={onAddProject} />
+    // </section>
   );
 }
