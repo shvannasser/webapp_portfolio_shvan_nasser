@@ -1,8 +1,4 @@
 {
-  "users": [
-    { "id": "user1", "name": "Alice" },
-    { "id": "user2", "name": "Bob" }
-  ],
   "projects": [
     {
       "id": "project1",
@@ -12,12 +8,7 @@
       "isPublic": true,
       "createdAt": "2023-01-01T00:00:00.000Z",
       "publishedAt": "2023-01-02T00:00:00.000Z",
-      "status": true,
-      "authorId": "user1",
-      "tags": [{ "tagId": "tag1" }, { "tagId": "tag2" }],
-      "collaborators": [
-        { "userId": "user2", "createdAt": "2023-01-03T00:00:00.000Z" }
-      ]
+      "status": true
     },
     {
       "id": "project2",
@@ -26,17 +17,8 @@
       "description": "Description of Project B",
       "isPublic": false,
       "createdAt": "2023-01-02T00:00:00.000Z",
-      "publishedAt": "2023-01-02T00:00:00.000Z",
-      "status": false,
-      "authorId": "user2",
-      "tags": [{ "tagId": "tag1" }],
-      "collaborators": [
-        { "userId": "user1", "createdAt": "2023-01-04T00:00:00.000Z" }
-      ]
+      "publishedAt": "",
+      "status": false
     }
-  ],
-  "tags": [
-    { "id": "tag1", "name": "JavaScript" },
-    { "id": "tag2", "name": "TypeScript" }
   ]
 }

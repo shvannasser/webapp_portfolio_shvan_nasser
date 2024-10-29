@@ -14,27 +14,28 @@ export type Result<T> =
       };
     };
 
-export type Collaborator = {
-  user: {
-    id: string;
-    name: string;
-  };
-  createdAt: string;
-};
-
-export type Tag = {
-  id: string;
-  name: string;
-};
-
 export type Project = {
   id: string;
   title: string;
   image?: string;
-  publishedAt: string;
+  createdAt: string;
+  publishedAt?: string;
   isPublic: boolean;
   status: boolean;
   description: string;
-  tags?: Tag[];
-  collaborators?: Collaborator[];
+  // tags?: Tag[];
+  // collaborators?: Collaborator[];
 };
+
+// export type Collaborator = {
+//   user: {
+//     id: string;
+//     name: string;
+//   };
+//   createdAt: string;
+// };
+
+// export type Tag = {
+//   id: string;
+//   name: string;
+// };

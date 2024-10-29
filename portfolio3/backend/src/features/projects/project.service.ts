@@ -1,81 +1,40 @@
-import * as projectRepository from "./project.repository"
+import {
+  getProjects,
+  createProject,
+  updateProject,
+  deleteProject,
+} from "./project.repository";
+import type { Project } from "@prisma/client";
 
-export const fetchProjects = async () => {
-  return await projectRepository.getProjects()
-}
+export const fetchProjects = async (): Promise<Project[]> => {
+  return await getProjects();
+};
 
-export const addProject = async (projectData: any) => {
-  // Perform any necessary transformations or validations here.
-  return await projectRepository.createProject(projectData)
-}
+export const addProject = async (projectData: {
+  title: string;
+  isPublic: boolean;
+  status: boolean;
+  publishedAt?: string;
+  image?: string;
+  description: string;
+}): Promise<Project> => {
+  return await createProject(projectData);
+};
 
-// import {
-//   projectRepository,
-//   type ProjectRepository,
-// } from "./project.repository";
-// import {
-//   validateCreateProject,
-//   type CreateProject,
-//   type Project,
-//   type UpdateProject,
-// } from "./project.schema";
-// import { createProject, createProjectResponse } from "./project.mapper";
-// import { type Query } from "../../lib/query";
-// import { Result } from "../../../types";
+export const modifyProject = async (
+  projectId: string,
+  projectData: Partial<{
+    title: string;
+    isPublic: boolean;
+    status: boolean;
+    publishedAt?: string;
+    image?: string;
+    description: string;
+  }>
+): Promise<Project> => {
+  return await updateProject(projectId, projectData);
+};
 
-// export const createProjectService = (projectRepository: ProjectRepository) => {
-//   const getById = async (id: string): Promise<Result<Project | undefined>> => {
-//     return projectRepository.getById(id);
-//   };
-
-//   const list = async (query?: Query): Promise<Result<Project[]>> => {
-//     const result = await projectRepository.list(query);
-//     if (!result.success) return result;
-
-//     return {
-//       ...result,
-//       data: result.data.map(createProjectResponse),
-//     };
-//   };
-
-//   const create = async (data: CreateProject): Promise<Result<string>> => {
-//     const project = createProject(data);
-
-//     if (!validateCreateProject(project).success) {
-//       return {
-//         success: false,
-//         error: { code: "BAD_REQUEST", message: "Invalid project data" },
-//       };
-//     }
-//     return projectRepository.create(project);
-//   };
-
-//   const update = async (data: UpdateProject) => {
-//     const project = createProject(data);
-
-//     if (!validateCreateProject(project).success) {
-//       return {
-//         success: false,
-//         error: { code: "BAD_REQUEST", message: "Invalid project data" },
-//       };
-//     }
-
-//     return projectRepository.update(project);
-//   };
-
-//   const remove = async (id: string) => {
-//     return projectRepository.remove(id);
-//   };
-
-//   return {
-//     list,
-//     create,
-//     update,
-//     getById,
-//     remove,
-//   };
-// };
-
-// export const projectService = createProjectService(projectRepository);
-
-// export type ProjectService = ReturnType<typeof createProjectService>;
+export const removeProject = async (projectId: string): Promise<Project> => {
+  return await deleteProject(projectId);
+};

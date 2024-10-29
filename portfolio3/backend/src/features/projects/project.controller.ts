@@ -1,91 +1,51 @@
-import { addProject, fetchProjects } from "./project.service"
-import { Context } from "hono"
+import {
+  addProject,
+  fetchProjects,
+  modifyProject,
+  removeProject,
+} from "./project.service";
+import { Context } from "hono";
 
 export const getProjectsController = async (c: Context) => {
-  const projects = await fetchProjects()
-  return c.json({ data: projects })
-}
+  try {
+    const projects = await fetchProjects();
+    return c.json({ data: projects });
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+};
 
 export const createProjectController = async (c: Context) => {
-  const projectData = await c.req.json()
-  const newProject = await addProject(projectData)
-  return c.json({ project: newProject }, 201)
-}
+  try {
+    const projectData = await c.req.json();
+    const newProject = await addProject(projectData);
+    return c.json({ project: newProject }, 201);
+  } catch (error) {
+    console.error("Error creating project:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+};
 
-// import { Hono } from "hono";
-// import { projectService, type ProjectService } from "./project.service";
-// import { validateQuery } from "../../lib/query";
-// import { ErrorCode, errorResponse } from "../../lib/error";
+export const updateProjectController = async (c: Context) => {
+  try {
+    const projectId = c.req.param("id");
+    const projectData = await c.req.json();
+    const updatedProject = await modifyProject(projectId, projectData);
+    return c.json({ project: updatedProject });
+  } catch (error) {
+    console.error("Error updating project:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+};
 
-// export const createProjectController = (projectService: ProjectService) => {
-//   const app = new Hono();
-
-//   app.get("/", async (c) => {
-//     const query = validateQuery(c.req.query()).data ?? {};
-
-//     const result = await projectService.list(query);
-
-//     if (!result.success)
-//       return errorResponse(
-//         c,
-//         result.error.code as ErrorCode,
-//         result.error.message
-//       );
-//     return c.json(result);
-//   });
-
-//   app.get("/:id", async (c) => {
-//     const id = c.req.param("id");
-//     const result = await projectService.getById(id);
-
-//     if (!result.success)
-//       return errorResponse(
-//         c,
-//         result.error.code as ErrorCode,
-//         result.error.message
-//       );
-//     return c.json(result);
-//   });
-
-//   app.post("/", async (c) => {
-//     const data = await c.req.json();
-//     const result = await projectService.create(data);
-//     if (!result.success)
-//       return errorResponse(
-//         c,
-//         result.error.code as ErrorCode,
-//         result.error.message
-//       );
-//     return c.json(result, { status: 201 });
-//   });
-
-//   app.patch("/:id", async (c) => {
-//     const id = c.req.param("id");
-//     const data = await c.req.json();
-
-//     const result = await projectService.update({ id, ...data });
-//     if (!result.success)
-//       return errorResponse(
-//         c,
-//         result.error.code as ErrorCode,
-//         result.error.message
-//       );
-//     return c.json(result);
-//   });
-
-//   app.delete("/:id", async (c) => {
-//     const id = c.req.param("id");
-//     const result = await projectService.remove(id);
-//     if (!result.success)
-//       return errorResponse(
-//         c,
-//         result.error.code as ErrorCode,
-//         result.error.message
-//       );
-//     return c.json(result);
-//   });
-
-//   return app;
-// };
-
-// export const projectController = createProjectController(projectService);
+export const deleteProjectController = async (c: Context) => {
+  try {
+    const projectId = c.req.param("id");
+    await removeProject(projectId);
+    return c.json({ message: "Project deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting project:", error);
+    return c.json({ error: "Internal Server Error" }, 500);
+  }
+};

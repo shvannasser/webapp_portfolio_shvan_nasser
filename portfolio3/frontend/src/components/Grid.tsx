@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Project from "../features/projects/Project";
-import type { Collaborator, Project as ProjectProp, Tag } from "../types/types";
+import type { Project as ProjectProp, ProjectReuse } from "../types/types";
 import AddProjectForm from "../features/projects/components/AddProjectForm";
 
 type GridProps = {
@@ -21,12 +21,9 @@ export default function GridProjects(props: GridProps) {
     isPublic: boolean;
     status: boolean;
     publishedAt: string;
+    createdAt: string;
     image: string;
     description: string;
-    authorId: string;
-    authorName: string;
-    tags: Tag[];
-    collaborators: Collaborator[];
   }) => {
     try {
       const response = await fetch("http://localhost:3999/api/projects", {
@@ -40,6 +37,56 @@ export default function GridProjects(props: GridProps) {
       setProjects((prevProjects) => [...prevProjects, data.project]);
     } catch (error) {
       console.error("Error adding project:", error);
+    }
+  };
+
+  const onUpdateProject = async (
+    projectId: string,
+    projectData: ProjectReuse
+  ) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3999/api/projects/${projectId}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(projectData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const updatedProject = await response.json();
+      setProjects(
+        projects.map((project) =>
+          project.id === projectId ? updatedProject.project : project
+        )
+      );
+    } catch (error) {
+      console.error("Error updating project:", error);
+    }
+  };
+
+  const onDeleteProject = async (projectId: string) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3999/api/projects/${projectId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      setProjects(projects.filter((project) => project.id !== projectId));
+    } catch (error) {
+      console.error("Error deleting project:", error);
     }
   };
 
@@ -69,18 +116,26 @@ export default function GridProjects(props: GridProps) {
           currentProjects.map((project) => (
             <div key={project.id} className='projects-item'>
               <Project
+                key={project.id}
+                {...project}
+                onUpdateProject={onUpdateProject}
+                onDeleteProject={onDeleteProject}
+              />
+
+              {/* <Project
                 id={project.id}
                 title={project.title}
                 publishedAt={project.publishedAt}
+                createdAt={project.createdAt}
                 isPublic={project.isPublic}
                 status={project.status}
                 image={project.image}
                 description={project.description}
-                authorId={project.authorId}
-                authorName={project.authorName}
-                tags={project.tags}
-                collaborators={project.collaborators}
-              />
+                // authorId={project.authorId}
+                // authorName={project.authorName}
+                // tags={project.tags}
+                // collaborators={project.collaborators}
+              /> */}
             </div>
           ))
         ) : (

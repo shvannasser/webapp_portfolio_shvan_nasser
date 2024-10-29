@@ -182,6 +182,12 @@ button {
   width: 50%;
 }
 
+.button-projects {
+  display: flex;
+  justify-content: end;
+  gap: 0.5rem;
+}
+
 #bilde {
   display: flex;
   justify-content: center;

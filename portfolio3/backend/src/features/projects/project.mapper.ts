@@ -9,11 +9,9 @@ export const createProjectResponse = (project: Project) => {
     title: project.title,
     description: project.description,
     createdAt: project.createdAt,
+    publishedAt: project.publishedAt,
     isPublic: project.isPublic,
     status: project.status,
-    authorId: project.authorId,
-    tags: project.tags,
-    collaborators: project.collaborators,
   };
 };
 
@@ -26,10 +24,8 @@ export const createProject = (data: Partial<Project>): Project => {
     image: data.image ?? undefined,
     isPublic: data.isPublic ?? false,
     createdAt: data.createdAt ?? new Date().toISOString(),
+    publishedAt: data.publishedAt ?? undefined,
     status: data.status ?? false,
-    authorId: data.authorId ?? "",
-    tags: data.tags ?? [],
-    collaborators: data.collaborators ?? [],
   };
 };
 
@@ -39,13 +35,11 @@ export const fromDb = (dbProject: any): Project => {
     id: dbProject.id,
     title: dbProject.title,
     description: dbProject.description,
-    image: dbProject.image ?? null, // Optional image field
+    image: dbProject.image ?? null,
     isPublic: dbProject.is_public ?? false,
     createdAt: new Date(dbProject.created_at).toISOString(),
+    publishedAt: dbProject.published_at ?? null,
     status: dbProject.status ?? false,
-    authorId: dbProject.author_id,
-    tags: dbProject.tags ?? [],
-    collaborators: dbProject.collaborators ?? [],
   };
 };
 
@@ -58,9 +52,7 @@ export const toDb = (project: Project) => {
     image: project.image,
     is_public: project.isPublic,
     created_at: project.createdAt,
+    published_at: project.publishedAt,
     status: project.status,
-    author_id: project.authorId,
-    tags: project.tags,
-    collaborators: project.collaborators,
   };
 };
