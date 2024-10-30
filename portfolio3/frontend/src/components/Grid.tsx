@@ -3,6 +3,7 @@ import Project from "../features/projects/Project";
 import type { Project as ProjectProp, ProjectReuse } from "../types/types";
 import AddProjectForm from "../features/projects/components/AddProjectForm";
 import UpdateProjectForm from "../features/projects/components/UpdateProjectForm";
+import { URLS } from "../config";
 
 type GridProps = {
   projects: ProjectProp[];
@@ -25,7 +26,7 @@ export default function GridProjects(props: GridProps) {
 
   const onAddProject = async (project: ProjectProp) => {
     try {
-      const response = await fetch("http://localhost:3999/api/projects", {
+      const response = await fetch(URLS.projects, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,16 +45,13 @@ export default function GridProjects(props: GridProps) {
     projectData: Partial<ProjectReuse>
   ) => {
     try {
-      const response = await fetch(
-        `http://localhost:3999/api/projects/${projectId}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(projectData),
-        }
-      );
+      const response = await fetch(`${URLS.projects}/${projectId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -73,12 +71,9 @@ export default function GridProjects(props: GridProps) {
 
   const onDeleteProject = async (projectId: string) => {
     try {
-      const response = await fetch(
-        `http://localhost:3999/api/projects/${projectId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(`${URLS.projects}/${projectId}`, {
+        method: "DELETE",
+      });
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,19 +1,4 @@
 export default function MainIntro() {
-  // const [projects, setProjects] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchProjects = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:3999");
-  //       const data = await response.json();
-  //       setProjects(data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching projects:", error);
-  //     }
-  //   };
-  //   fetchProjects();
-  // }, []);
-
   return (
     <section>
       <section id='intro-section'>
@@ -36,7 +21,6 @@ export default function MainIntro() {
           <img src='/bilder/Shvan.jpg' alt='bilde av meg' />
         </article>
       </section>
-      {/* <GridProjects projects={projects} /> */}
     </section>
   );
 }
