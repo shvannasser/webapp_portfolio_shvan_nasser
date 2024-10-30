@@ -98,7 +98,7 @@ export default function GridProjects(props: GridProps) {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
   };
 
-  // Event handler for å kunne gå til neste side
+  // Event handler for å kunne gå til neste side.
   const handleNextPage = () => {
     setCurrentPage((prev) => Math.min(prev + 1, totalPages));
   };
