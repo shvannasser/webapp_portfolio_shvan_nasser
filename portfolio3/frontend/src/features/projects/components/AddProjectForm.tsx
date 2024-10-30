@@ -29,7 +29,7 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      projectSchema.parse(project); // Validate using projectSchema
+      projectSchema.parse(project);
       await onAddProject(project);
       setProject({
         id: "",
