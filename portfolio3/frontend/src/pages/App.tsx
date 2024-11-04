@@ -3,11 +3,9 @@ import MainPage from "./MainPage";
 
 function App() {
   return (
-    <body>
-      <Layout>
-        <MainPage />
-      </Layout>
-    </body>
+    <Layout>
+      <MainPage />
+    </Layout>
   );
 }
 
