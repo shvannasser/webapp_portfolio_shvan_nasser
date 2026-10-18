@@ -44,7 +44,7 @@ const AddProjectForm: React.FC<AddProjectFormProps> = ({
       onClose(); // Close the form after submission
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors(error.errors.map((err) => err.message));
+        setErrors(error.issues.map((issue) => issue.message));
       }
     }
   };

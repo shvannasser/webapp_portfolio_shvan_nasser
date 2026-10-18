@@ -1,7 +1,7 @@
 import { Project as ProjectProps } from "./types";
 
 export default function Students(props: ProjectProps) {
-  const { id, title, image, description } = props;
+  const { title, image, description } = props;
 
   return (
     <section>
