@@ -1,6 +1,9 @@
 import type { Context } from "hono";
 import { z } from "zod";
-import type { StatusCode } from "hono/utils/http-status";
+import type {
+  ContentfulStatusCode,
+  StatusCode,
+} from "hono/utils/http-status";
 
 export const Errors = z.enum([
   "BAD_REQUEST",
@@ -32,7 +35,7 @@ export function statusToCode(status: StatusCode): ErrorCode {
   }
 }
 
-function codeToStatus(code: ErrorCode): StatusCode {
+function codeToStatus(code: ErrorCode): ContentfulStatusCode {
   switch (code) {
     case "BAD_REQUEST":
       return 400;

@@ -4,7 +4,7 @@ import {
   updateProject,
   deleteProject,
 } from "./project.repository";
-import type { Project } from "@prisma/client";
+import type { Project } from "../../generated/prisma/client";
 
 export const fetchProjects = async (): Promise<Project[]> => {
   return await getProjects();

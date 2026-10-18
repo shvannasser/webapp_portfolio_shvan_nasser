@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import fs from "fs";
-
-const prisma = new PrismaClient();
+import prisma from "../src/lib/client/db";
 
 async function main() {
   const data = JSON.parse(fs.readFileSync("data/data.json", "utf-8"));

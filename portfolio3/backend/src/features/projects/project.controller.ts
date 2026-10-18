@@ -30,6 +30,7 @@ export const createProjectController = async (c: Context) => {
 export const updateProjectController = async (c: Context) => {
   try {
     const projectId = c.req.param("id");
+    if (!projectId) return c.json({ error: "Missing project id" }, 400);
     const projectData = await c.req.json();
     const updatedProject = await modifyProject(projectId, projectData);
     return c.json({ project: updatedProject });
@@ -42,6 +43,7 @@ export const updateProjectController = async (c: Context) => {
 export const deleteProjectController = async (c: Context) => {
   try {
     const projectId = c.req.param("id");
+    if (!projectId) return c.json({ error: "Missing project id" }, 400);
     await removeProject(projectId);
     return c.json({ message: "Project deleted successfully" });
   } catch (error) {
